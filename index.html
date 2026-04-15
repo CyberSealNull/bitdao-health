@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BitDao Technology (HK) Limited | Regenerative Medicine & Wellness</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.7;
+  }
+
+  .lang-switch {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.2);
+  }
+
+  .lang-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.6);
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    font-family: inherit;
+  }
+
+  .lang-btn.active {
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+
+  .lang-btn:hover { color: white; }
+
+  /* Scroll animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0a1628 0%, #1a3a5c 50%, #2a5a3c 100%);
+    color: white;
+    padding: 100px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(42,90,60,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(26,58,92,0.15) 0%, transparent 60%);
+    animation: drift 20s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-2%, 1%); }
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 span { font-weight: 600; }
+
+  .hero .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 6px;
+    margin-bottom: 36px;
+  }
+
+  .hero .tagline {
+    font-size: 18px;
+    color: rgba(255,255,255,0.85);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .hero .company {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1px;
+    margin-top: 48px;
+  }
+
+  .hero .scroll-hint {
+    margin-top: 48px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    background: #f0f4f3;
+    padding: 32px 24px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .stats-grid {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: center;
+  }
+
+  .stat-item .stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a3a5c;
+  }
+
+  .stat-item .stat-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+  }
+
+  /* Sections */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .section h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .section .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  /* Packages */
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .package {
+    border: 1px solid #e8e8e8;
+    border-radius: 16px;
+    padding: 36px 28px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .package:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+  }
+
+  .package.featured {
+    border-color: #2a5a3c;
+    box-shadow: 0 4px 16px rgba(42,90,60,0.1);
+  }
+
+  .package .badge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: linear-gradient(135deg, #2a5a3c, #1a3a5c);
+    color: white;
+    font-size: 10px;
+    padding: 4px 12px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+  }
+
+  .package h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 4px;
+  }
+
+  .package .en-name {
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+  }
+
+  .package ul { list-style: none; margin-bottom: 24px; }
+
+  .package ul li {
+    font-size: 13px;
+    color: #555;
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .package ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2a5a3c;
+  }
+
+  .package .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a3a5c;
+  }
+
+  .package .price-note {
+    font-size: 12px;
+    color: #999;
+  }
+
+  /* Process */
+  .process {
+    background: #f8f9fa;
+    padding: 72px 24px;
+  }
+
+  .process-content {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .process-content h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .process-content .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .process-steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(to right, #2a5a3c, #1a3a5c);
+    opacity: 0.2;
+    z-index: 0;
+  }
+
+  .step {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a5a3c, #1a3a5c);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 auto 16px;
+  }
+
+  .step h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 6px;
+  }
+
+  .step p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* Why us */
+  .about {
+    padding: 72px 24px;
+  }
+
+  .about-content {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .about-content h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .about-content .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .about-item {
+    padding: 28px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+
+  .about-item:hover {
+    background: #f0f4f3;
+    transform: translateY(-2px);
+  }
+
+  .about-item .about-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .about-item h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 8px;
+  }
+
+  .about-item p {
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* Ideal For */
+  .ideal {
+    background: linear-gradient(135deg, #0a1628, #1a3a5c);
+    color: white;
+    padding: 72px 24px;
+  }
+
+  .ideal-content {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .ideal-content h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .ideal-content .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .ideal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .ideal-item {
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .ideal-item:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .ideal-item .ideal-icon { font-size: 28px; margin-bottom: 10px; }
+
+  .ideal-item h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .ideal-item p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* Credentials */
+  .credentials {
+    padding: 72px 24px;
+    text-align: center;
+  }
+
+  .credentials h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .credentials .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .credentials p {
+    color: #666;
+    max-width: 640px;
+    margin: 0 auto 32px;
+    font-size: 14px;
+  }
+
+  .cert-badges {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cert-badge {
+    padding: 12px 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.5px;
+  }
+
+  /* FAQ */
+  .faq {
+    background: #f8f9fa;
+    padding: 72px 24px;
+  }
+
+  .faq-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .faq-content h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .faq-content .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 0;
+    cursor: pointer;
+  }
+
+  .faq-q {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a3a5c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-q::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 300;
+    color: #999;
+    transition: transform 0.3s;
+  }
+
+  .faq-item.open .faq-q::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-a {
+    font-size: 13px;
+    color: #666;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-top: 0;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 200px;
+    padding-top: 12px;
+  }
+
+  /* Contact */
+  .contact {
+    background: #1a3a5c;
+    color: white;
+    padding: 56px 24px;
+    text-align: center;
+  }
+
+  .contact h2 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .contact p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 4px;
+  }
+
+  .contact a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+  }
+
+  .contact .cta-btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 36px;
+    background: white;
+    color: #1a3a5c;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .contact .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  .footer {
+    padding: 24px;
+    text-align: center;
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 28px; }
+    .hero .tagline { font-size: 15px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-steps::before { display: none; }
+    .step { min-width: 45%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-switch">
+  <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+  <button class="lang-btn" onclick="switchLang('zh')">CN</button>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1><span data-en="Regenerative Medicine" data-zh="再生医疗">Regenerative Medicine</span></h1>
+  <div class="subtitle" data-en="ANTI-AGING &amp; WELLNESS JOURNEY" data-zh="抗衰之旅">ANTI-AGING &amp; WELLNESS JOURNEY</div>
+  <p class="tagline" data-en="Bridging boundaries with excellence. Partnering with AC+ Medical Group in Osaka to bring you Japan's most advanced regenerative medicine resources." data-zh="以极致匠心，筑无界桥梁。依托大阪核心区的AC+ Medical Group，为您打通日本最前沿的再生医疗资源。">Bridging boundaries with excellence. Partnering with AC+ Medical Group in Osaka to bring you Japan's most advanced regenerative medicine resources.</p>
+  <p class="company">BitDao Technology (HK) Limited &times; Kobayashi Corporation</p>
+  <div class="scroll-hint" data-en="SCROLL TO EXPLORE" data-zh="向下探索">SCROLL TO EXPLORE</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item fade-in">
+      <div class="stat-number" data-en="18+" data-zh="18+">18+</div>
+      <div class="stat-label" data-en="Years in Regenerative Medicine" data-zh="年再生医学深耕">Years in Regenerative Medicine</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number" data-en="19" data-zh="19">19</div>
+      <div class="stat-label" data-en="Nobel Laureates (Kyoto U.)" data-zh="位诺贝尔奖得主（京都大学）">Nobel Laureates (Kyoto U.)</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number" data-en="95%" data-zh="95%">95%</div>
+      <div class="stat-label" data-en="Cell Viability Rate" data-zh="细胞存活率">Cell Viability Rate</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number" data-en="91.2%" data-zh="91.2%">91.2%</div>
+      <div class="stat-label" data-en="Stem Cell Improvement Rate" data-zh="干细胞有效改善率">Stem Cell Improvement Rate</div>
+    </div>
+  </div>
+</div>
+
+<!-- Packages -->
+<div class="section">
+  <h2 data-en="Curated Collections" data-zh="臻选系列">Curated Collections</h2>
+  <p class="section-sub" data-en="Three signature sets for comprehensive rejuvenation" data-zh="为您甄选三套最具代表性的轻医美点滴方案">Three signature sets for comprehensive rejuvenation</p>
+  <div class="packages">
+
+    <div class="package fade-in featured">
+      <div class="badge" data-en="SIGNATURE" data-zh="招牌">SIGNATURE</div>
+      <h3 data-en="Luxury Anti-Aging &middot; Hermes Glow" data-zh="奢华抗衰 &middot; 爱马仕焕肤">Luxury Anti-Aging &middot; Hermes Glow</h3>
+      <div class="en-name">HERMES GLOW SET</div>
+      <ul>
+        <li data-en="Hermes IV Drip + Imported American VC Drip" data-zh="爱马仕点滴 + 美国进口VC点滴">Hermes IV Drip + Imported American VC Drip</li>
+        <li data-en="Rebuild skin collagen microecology" data-zh="重塑肌底胶原微生态">Rebuild skin collagen microecology</li>
+        <li data-en="Lift, firm, and reverse facial aging" data-zh="提拉紧致，逆转面部老化">Lift, firm, and reverse facial aging</li>
+      </ul>
+      <div class="price">HK$ 6,986 <span class="price-note" data-en="/ session" data-zh="/ 次">/ session</span></div>
+      <div class="price-note">142,000 JPY</div>
+    </div>
+
+    <div class="package fade-in">
+      <h3 data-en="Deep Detox &middot; Immune Rebuild" data-zh="深度排毒 &middot; 免疫重塑">Deep Detox &middot; Immune Rebuild</h3>
+      <div class="en-name">IMMUNE REBUILD SET</div>
+      <ul>
+        <li data-en="Ultra-high concentration VC + Liver Special IV + Whitening Jade" data-zh="超高浓度VC + 肝脏特别版点滴 + 美白玉">Ultra-high concentration VC + Liver Special IV + Whitening Jade</li>
+        <li data-en="Regulate immune microcirculation, improve sub-health" data-zh="调节免疫微循环，改善亚健康">Regulate immune microcirculation, improve sub-health</li>
+        <li data-en="Comprehensive internal toxin purification" data-zh="全方位净化体内毒素">Comprehensive internal toxin purification</li>
+      </ul>
+      <div class="price">HK$ 5,880 <span class="price-note" data-en="/ session" data-zh="/ 次">/ session</span></div>
+      <div class="price-note">119,500 JPY</div>
+    </div>
+
+    <div class="package fade-in">
+      <h3 data-en="Total Renewal &middot; Radiance" data-zh="全效焕肤 &middot; 光泽新生">Total Renewal &middot; Radiance</h3>
+      <div class="en-name">RADIANCE RENEWAL SET</div>
+      <ul>
+        <li data-en="Whitening IV + Anti-aging IV + Special Fatigue Recovery IV" data-zh="美白点滴 + 抗衰点滴 + 特别版疲劳恢复点滴">Whitening IV + Anti-aging IV + Special Fatigue Recovery IV</li>
+        <li data-en="Alpha-lipoic acid + VitH comprehensive anti-aging skincare" data-zh="&alpha;硫辛酸 + VitH全面抗老护肤">Alpha-lipoic acid + VitH comprehensive anti-aging skincare</li>
+        <li data-en="VitB complex to strengthen skin barrier" data-zh="VitB族强化肌底屏障">VitB complex to strengthen skin barrier</li>
+      </ul>
+      <div class="price">HK$ 5,018 <span class="price-note" data-en="/ session" data-zh="/ 次">/ session</span></div>
+      <div class="price-note">102,000 JPY</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Process -->
+<div class="process">
+  <div class="process-content">
+    <h2 data-en="Your Journey" data-zh="服务流程">Your Journey</h2>
+    <p class="section-sub" data-en="From consultation to aftercare, we handle everything" data-zh="从咨询到随访，全程无忧">From consultation to aftercare, we handle everything</p>
+    <div class="process-steps">
+      <div class="step fade-in">
+        <div class="step-number">1</div>
+        <h4 data-en="Consultation" data-zh="咨询评估">Consultation</h4>
+        <p data-en="Personalized health assessment and treatment plan" data-zh="个性化健康评估与方案制定">Personalized health assessment and treatment plan</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">2</div>
+        <h4 data-en="Arrangement" data-zh="行程安排">Arrangement</h4>
+        <p data-en="Visa, flights, luxury accommodation, all handled" data-zh="签证、机票、高端住宿一站搞定">Visa, flights, luxury accommodation, all handled</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">3</div>
+        <h4 data-en="Treatment" data-zh="赴日治疗">Treatment</h4>
+        <p data-en="Professional care at AC+ Medical Group, Osaka" data-zh="大阪AC+医疗集团专业治疗">Professional care at AC+ Medical Group, Osaka</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">4</div>
+        <h4 data-en="Recovery" data-zh="康复休养">Recovery</h4>
+        <p data-en="Curated wellness itinerary during recovery" data-zh="精选康养行程，边休养边旅行">Curated wellness itinerary during recovery</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-number">5</div>
+        <h4 data-en="Follow-up" data-zh="持续随访">Follow-up</h4>
+        <p data-en="Ongoing care and progress tracking" data-zh="归国后持续跟进与效果追踪">Ongoing care and progress tracking</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Why Us -->
+<div class="about">
+  <div class="about-content">
+    <h2 data-en="Why Choose Us" data-zh="选择我们的理由">Why Choose Us</h2>
+    <p class="section-sub" data-en="Four pillars of excellence" data-zh="四大核心优势">Four pillars of excellence</p>
+    <div class="about-grid">
+      <div class="about-item fade-in">
+        <div class="about-icon">&#9883;</div>
+        <h3 data-en="Direct Access to Top-Tier Medicine" data-zh="官方直通顶尖医疗">Direct Access to Top-Tier Medicine</h3>
+        <p data-en="As a strategic partner of AC Medical Group, we connect you directly to the regenerative medicine resources at Osaka's renowned Japan Cell Building." data-zh="作为AC医疗集团的深度战略伙伴，为您直接锁定大阪「日本细胞大楼」的再生医学资源。">As a strategic partner of AC Medical Group, we connect you directly to the regenerative medicine resources at Osaka's renowned Japan Cell Building.</p>
+      </div>
+      <div class="about-item fade-in">
+        <div class="about-icon">&#9830;</div>
+        <h3 data-en="Full-Cycle Concierge Service" data-zh="全周期闭环管家服务">Full-Cycle Concierge Service</h3>
+        <p data-en="Partnering with premium travel agencies for seamless visa processing, private transfers, luxury accommodation, and curated wellness itineraries." data-zh="携手深度定制旅行机构，无缝衔接专线签证、车辆接驳、高端住宿与私密医旅，让跨国康养如同本地就诊般安心便捷。">Partnering with premium travel agencies for seamless visa processing, private transfers, luxury accommodation, and curated wellness itineraries.</p>
+      </div>
+      <div class="about-item fade-in">
+        <div class="about-icon">&#9734;</div>
+        <h3 data-en="Professional Medical Translation" data-zh="无障碍专业医疗翻译">Professional Medical Translation</h3>
+        <p data-en="Dedicated bilingual coordinators with clinical medical backgrounds ensure precise communication between you and your physicians." data-zh="全程配备具有临床医学背景的专属中日双语协调员，精准传达您的健康诉求与医生的治疗方案。">Dedicated bilingual coordinators with clinical medical backgrounds ensure precise communication between you and your physicians.</p>
+      </div>
+      <div class="about-item fade-in">
+        <div class="about-icon">&#9878;</div>
+        <h3 data-en="Cross-Border Credibility" data-zh="跨国实业信誉保障">Cross-Border Credibility</h3>
+        <p data-en="Backed by Kobayashi Corporation's established business licenses and operations in Japan, with dual headquarters in China and Japan for comprehensive oversight." data-zh="依托小林株式会社在日本完备的特许经营资质与坚实的商业基础，中日双总部统筹运营。">Backed by Kobayashi Corporation's established business licenses and operations in Japan, with dual headquarters in China and Japan for comprehensive oversight.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ideal For -->
+<div class="ideal">
+  <div class="ideal-content">
+    <h2 data-en="Ideal For" data-zh="适合人群">Ideal For</h2>
+    <p class="section-sub" data-en="Personalized solutions for every concern" data-zh="专为解决以下肌肤诉求定制">Personalized solutions for every concern</p>
+    <div class="ideal-grid">
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#10022;</div>
+        <h4 data-en="Deep Hydration" data-zh="深层补水">Deep Hydration</h4>
+        <p data-en="Dry, dehydrated, rough skin" data-zh="改善熟龄干燥缺水肌肤">Dry, dehydrated, rough skin</p>
+      </div>
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#10024;</div>
+        <h4 data-en="Pore Refinement" data-zh="毛孔细腻">Pore Refinement</h4>
+        <p data-en="Large pores, rough texture, fine lines" data-zh="淡化粗大毛孔与初生细纹">Large pores, rough texture, fine lines</p>
+      </div>
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#9728;</div>
+        <h4 data-en="Even Skin Tone" data-zh="肤质匀净">Even Skin Tone</h4>
+        <p data-en="Uneven texture, dullness, roughness" data-zh="平滑粗糙棱纹理恢复均匀肤色">Uneven texture, dullness, roughness</p>
+      </div>
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#10047;</div>
+        <h4 data-en="Firming & Contouring" data-zh="紧致轮廓">Firming &amp; Contouring</h4>
+        <p data-en="Sagging skin, loss of elasticity" data-zh="重塑弹性与原生光泽">Sagging skin, loss of elasticity</p>
+      </div>
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#9733;</div>
+        <h4 data-en="Anti-Aging" data-zh="抗初老">Anti-Aging</h4>
+        <p data-en="Early signs of aging, prevention" data-zh="高阶抗衰深度修护">Early signs of aging, prevention</p>
+      </div>
+      <div class="ideal-item fade-in">
+        <div class="ideal-icon">&#10048;</div>
+        <h4 data-en="Cell Renewal" data-zh="细胞焕活">Cell Renewal</h4>
+        <p data-en="Cellular regeneration, rejuvenation" data-zh="细胞级再生逆龄焕颜">Cellular regeneration, rejuvenation</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials -->
+<div class="credentials">
+  <h2 data-en="Medical Credentials" data-zh="医疗资质">Medical Credentials</h2>
+  <p class="section-sub" data-en="World-class standards, government-certified" data-zh="世界级标准，政府认证资质">World-class standards, government-certified</p>
+  <p data-en="AC Medical Group has been dedicated to regenerative medicine for 18 years. Our core research team is affiliated with Kyoto University, home to 19 Nobel laureates. Equipped with cutting-edge technology including proprietary ACRS and PRP techniques. The group holds 11 regenerative medicine implementation plans approved by Japan's Ministry of Health, Labour and Welfare. Our proprietary cell preparation system achieves over 95% cell viability, with an autologous stem cell improvement rate of 91.2%." data-zh="AC医疗集团深耕再生医学18年，核心科研团队为19位诺贝尔奖得主的京都大学顶级医学团队。全线采用尖端设备，掌握核心ACRS与PRP技术。集团已获得日本厚生劳动省严格审批的11项再生医疗实施计划资质。自主研发的细胞制备体系实现了95%以上的细胞存活率，自体干细胞有效改善率高达91.2%。">AC Medical Group has been dedicated to regenerative medicine for 18 years. Our core research team is affiliated with Kyoto University, home to 19 Nobel laureates. Equipped with cutting-edge technology including proprietary ACRS and PRP techniques. The group holds 11 regenerative medicine implementation plans approved by Japan's Ministry of Health, Labour and Welfare. Our proprietary cell preparation system achieves over 95% cell viability, with an autologous stem cell improvement rate of 91.2%.</p>
+  <div class="cert-badges">
+    <div class="cert-badge" data-en="MHLW Approved (11 Plans)" data-zh="厚生劳动省批准（11项）">MHLW Approved (11 Plans)</div>
+    <div class="cert-badge" data-en="Kyoto University Affiliated" data-zh="京都大学合作团队">Kyoto University Affiliated</div>
+    <div class="cert-badge" data-en="ACRS & PRP Certified" data-zh="ACRS & PRP 认证技术">ACRS &amp; PRP Certified</div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq">
+  <div class="faq-content">
+    <h2 data-en="Frequently Asked Questions" data-zh="常见问题">Frequently Asked Questions</h2>
+    <p class="section-sub" data-en="Everything you need to know" data-zh="您可能关心的问题">Everything you need to know</p>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q" data-en="How long does a typical treatment take?" data-zh="一次治疗需要多长时间？">How long does a typical treatment take?</div>
+      <div class="faq-a" data-en="Each IV drip session takes approximately 60-90 minutes. We recommend a 3-5 day stay in Osaka for a complete treatment cycle, including pre-treatment assessment and post-treatment observation." data-zh="每次点滴治疗约60-90分钟。我们建议在大阪停留3-5天，完成完整的治疗周期，包括治疗前评估和治疗后观察。">Each IV drip session takes approximately 60-90 minutes. We recommend a 3-5 day stay in Osaka for a complete treatment cycle, including pre-treatment assessment and post-treatment observation.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q" data-en="Is the treatment safe?" data-zh="治疗安全吗？">Is the treatment safe?</div>
+      <div class="faq-a" data-en="All treatments are performed at MHLW-approved facilities by licensed medical professionals. AC Medical Group holds 11 government-approved regenerative medicine implementation plans, ensuring the highest safety standards." data-zh="所有治疗均在厚生劳动省批准的设施中由持证医疗专业人员执行。AC医疗集团持有11项政府批准的再生医疗实施计划，确保最高安全标准。">All treatments are performed at MHLW-approved facilities by licensed medical professionals. AC Medical Group holds 11 government-approved regenerative medicine implementation plans, ensuring the highest safety standards.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q" data-en="Do I need to speak Japanese?" data-zh="我需要会说日语吗？">Do I need to speak Japanese?</div>
+      <div class="faq-a" data-en="Not at all. We provide dedicated bilingual (Chinese-Japanese) medical coordinators with clinical backgrounds throughout your entire stay, ensuring seamless communication with medical staff." data-zh="完全不需要。我们全程配备具有临床医学背景的中日双语医疗协调员，确保您与医疗团队的沟通无障碍。">Not at all. We provide dedicated bilingual (Chinese-Japanese) medical coordinators with clinical backgrounds throughout your entire stay, ensuring seamless communication with medical staff.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q" data-en="What's included in the concierge service?" data-zh="管家服务包含哪些内容？">What's included in the concierge service?</div>
+      <div class="faq-a" data-en="Our full-cycle service includes visa assistance, airport transfers, luxury accommodation arrangements, medical appointment scheduling, bilingual coordination, and curated wellness activities during your recovery period." data-zh="我们的全周期服务包括签证协助、机场接送、高端住宿安排、医疗预约调度、双语协调，以及康复期间的精选养生活动。">Our full-cycle service includes visa assistance, airport transfers, luxury accommodation arrangements, medical appointment scheduling, bilingual coordination, and curated wellness activities during your recovery period.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q" data-en="How do I book a consultation?" data-zh="如何预约咨询？">How do I book a consultation?</div>
+      <div class="faq-a" data-en="Simply contact us via phone at +852 6620-9905. Our team will arrange a personalized consultation to discuss your needs and create a tailored treatment plan." data-zh="请拨打 +852 6620-9905 联系我们。我们的团队将为您安排个性化咨询，讨论您的需求并制定定制化治疗方案。">Simply contact us via phone at +852 6620-9905. Our team will arrange a personalized consultation to discuss your needs and create a tailored treatment plan.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="contact">
+  <h2 data-en="Begin Your Journey" data-zh="开启您的抗衰之旅">Begin Your Journey</h2>
+  <p>BitDao Technology (HK) Limited</p>
+  <p>Suite 603, 6/F Laws Commercial Plaza, 788 Cheung Sha Wan Road, Hong Kong</p>
+  <p>Tel: <a href="tel:+85266209905">+852 6620-9905</a></p>
+  <a href="tel:+85266209905" class="cta-btn" data-en="Book Consultation" data-zh="立即预约咨询">Book Consultation</a>
+</div>
+
+<div class="footer">
+  &copy; 2024-2026 BitDao Technology (HK) Limited. All rights reserved.
+</div>
+
+<script>
+  let currentLang = 'en';
+
+  function switchLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`).classList.add('active');
+    document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+    document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+  }
+
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+
+  // Scroll animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
