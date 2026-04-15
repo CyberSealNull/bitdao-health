@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -650,19 +650,57 @@
   }
 
   @media (max-width: 640px) {
-    .hero h1 { font-size: 28px; }
-    .hero .tagline { font-size: 15px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 60px 20px; }
+    .hero h1 { font-size: 26px; letter-spacing: 1px; }
+    .hero .subtitle { font-size: 12px; letter-spacing: 3px; margin-bottom: 24px; }
+    .hero .tagline { font-size: 14px; line-height: 1.8; }
+
+    .stats-bar { padding: 24px 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .stat-item .stat-number { font-size: 22px; }
+    .stat-item .stat-label { font-size: 11px; }
+
+    .section { padding: 48px 16px; }
+    .section h2 { font-size: 22px; }
+
+    .packages { grid-template-columns: 1fr; gap: 16px; }
+    .package { padding: 24px 20px; }
+
+    .about { padding: 48px 16px; }
+    .about-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    .process { padding: 48px 16px; }
+    .process-steps { flex-direction: column; align-items: center; }
     .process-steps::before { display: none; }
-    .step { min-width: 45%; }
+    .step { min-width: 100%; max-width: 280px; }
+    .step-number { width: 44px; height: 44px; font-size: 16px; }
+
+    .ideal { padding: 48px 16px; }
+    .ideal-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ideal-item { padding: 16px; }
+    .ideal-item h4 { font-size: 15px; }
+
+    .credentials { padding: 48px 16px; }
+    .credentials p { font-size: 13px; }
+    .cert-badges { gap: 12px; }
+    .cert-badge { font-size: 11px; padding: 8px 16px; }
+
+    .faq { padding: 48px 16px; }
+    .faq-q { font-size: 14px; }
+
+    .contact { padding: 40px 16px; }
+    .contact p { font-size: 13px; }
+
+    .lang-switch { top: 12px; right: 12px; }
+    .lang-btn { padding: 5px 12px; font-size: 11px; }
   }
 </style>
 </head>
 <body>
 
 <div class="lang-switch">
-  <button class="lang-btn active" onclick="switchLang('en')">EN</button>
-  <button class="lang-btn" onclick="switchLang('zh')">CN</button>
+  <button class="lang-btn" onclick="switchLang('en')">EN</button>
+  <button class="lang-btn active" onclick="switchLang('zh')">CN</button>
 </div>
 
 <!-- Hero -->
@@ -903,7 +941,7 @@
 </div>
 
 <script>
-  let currentLang = 'en';
+  let currentLang = 'zh';
 
   function switchLang(lang) {
     currentLang = lang;
@@ -914,6 +952,9 @@
       el.innerHTML = el.getAttribute('data-' + lang);
     });
   }
+
+  // Default to Chinese on load
+  switchLang('zh');
 
   function toggleFaq(el) {
     el.classList.toggle('open');
