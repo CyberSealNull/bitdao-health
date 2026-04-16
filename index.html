@@ -649,6 +649,41 @@
     letter-spacing: 0.5px;
   }
 
+  /* Success overlay */
+  .booking-success {
+    display: none;
+    text-align: center;
+    padding: 48px 24px;
+  }
+
+  .booking-success.show {
+    display: block;
+  }
+
+  .booking-success .check {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2a5a3c, #1a3a5c);
+    color: white;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .booking-success h3 {
+    font-size: 22px;
+    color: #1a3a5c;
+    margin-bottom: 12px;
+  }
+
+  .booking-success p {
+    font-size: 15px;
+    color: #666;
+  }
+
   /* Floating CTA Bar */
   .floating-cta {
     position: fixed;
@@ -1086,30 +1121,33 @@
   <div class="booking-content">
     <h2 data-en="Book Your Consultation" data-zh="在线预约咨询">Book Your Consultation</h2>
     <p class="section-sub" data-en="Fill in your details and we'll get back to you within 24 hours" data-zh="填写以下信息，我们将在24小时内与您联系">Fill in your details and we'll get back to you within 24 hours</p>
-    <form class="booking-form" onsubmit="submitBooking(event)">
+    <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+      <input type="hidden" name="_subject" value="新预约咨询 - djunhealth.com">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
       <div class="form-row">
         <div class="form-group">
           <label data-en="Name *" data-zh="姓名 *">Name *</label>
-          <input type="text" id="b-name" required placeholder="">
+          <input type="text" id="b-name" name="name" required placeholder="">
         </div>
         <div class="form-group">
           <label data-en="Phone / WeChat *" data-zh="电话 / 微信 *">Phone / WeChat *</label>
-          <input type="text" id="b-contact" required placeholder="">
+          <input type="text" id="b-contact" name="contact" required placeholder="">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label data-en="Email" data-zh="邮箱">Email</label>
-          <input type="email" id="b-email" placeholder="">
+          <input type="email" id="b-email" name="email" placeholder="">
         </div>
         <div class="form-group">
           <label data-en="Preferred Date" data-zh="期望治疗时间">Preferred Date</label>
-          <input type="text" id="b-date" placeholder="" data-placeholder-en="e.g. May 2026" data-placeholder-zh="如 2026年5月">
+          <input type="text" id="b-date" name="preferred_date" placeholder="" data-placeholder-en="e.g. May 2026" data-placeholder-zh="如 2026年5月">
         </div>
       </div>
       <div class="form-group full">
         <label data-en="Interested Package" data-zh="感兴趣的套餐">Interested Package</label>
-        <select id="b-package">
+        <select id="b-package" name="package">
           <option value="" data-en="-- Please select --" data-zh="-- 请选择 --">-- Please select --</option>
           <option value="hermes" data-en="Hermes Glow (HK$6,986)" data-zh="爱马仕焕肤 (HK$6,986)">Hermes Glow (HK$6,986)</option>
           <option value="immune" data-en="Immune Rebuild (HK$5,880)" data-zh="免疫重塑 (HK$5,880)">Immune Rebuild (HK$5,880)</option>
@@ -1119,10 +1157,15 @@
       </div>
       <div class="form-group full">
         <label data-en="Message (optional)" data-zh="备注（选填）">Message (optional)</label>
-        <textarea id="b-message" rows="3" placeholder=""></textarea>
+        <textarea id="b-message" name="message" rows="3" placeholder=""></textarea>
       </div>
       <button type="submit" class="submit-btn" data-en="Submit Booking" data-zh="提交预约">Submit Booking</button>
     </form>
+    <div class="booking-success" id="bookingSuccess">
+      <div class="check">&#10003;</div>
+      <h3 data-en="Booking Submitted!" data-zh="预约提交成功！">Booking Submitted!</h3>
+      <p data-en="Thank you for your interest. Our team will contact you within 24 hours." data-zh="感谢您的咨询，我们的团队将在24小时内与您联系。">Thank you for your interest. Our team will contact you within 24 hours.</p>
+    </div>
   </div>
 </div>
 
@@ -1183,32 +1226,33 @@
 
   function submitBooking(e) {
     e.preventDefault();
-    var name = document.getElementById('b-name').value;
-    var contact = document.getElementById('b-contact').value;
-    var email = document.getElementById('b-email').value;
-    var date = document.getElementById('b-date').value;
-    var pkg = document.getElementById('b-package');
-    var pkgText = pkg.options[pkg.selectedIndex].text;
-    var message = document.getElementById('b-message').value;
-
-    var text = (currentLang === 'zh' ? '预约咨询' : 'Booking Request') + '%0A';
-    text += (currentLang === 'zh' ? '姓名：' : 'Name: ') + name + '%0A';
-    text += (currentLang === 'zh' ? '联系方式：' : 'Contact: ') + contact + '%0A';
-    if (email) text += (currentLang === 'zh' ? '邮箱：' : 'Email: ') + email + '%0A';
-    if (date) text += (currentLang === 'zh' ? '期望时间：' : 'Preferred Date: ') + date + '%0A';
-    if (pkg.value) text += (currentLang === 'zh' ? '套餐：' : 'Package: ') + pkgText + '%0A';
-    if (message) text += (currentLang === 'zh' ? '备注：' : 'Message: ') + message;
-
-    window.open('https://wa.me/8618017722849?text=' + text, '_blank');
-
-    var btn = e.target.querySelector('.submit-btn');
+    var form = document.getElementById('bookingForm');
+    var btn = form.querySelector('.submit-btn');
     var origText = btn.textContent;
-    btn.textContent = currentLang === 'zh' ? '已提交' : 'Submitted';
-    btn.style.background = '#2a5a3c';
-    setTimeout(function() {
-      btn.textContent = origText;
-      btn.style.background = '';
-    }, 3000);
+    btn.textContent = currentLang === 'zh' ? '提交中...' : 'Submitting...';
+    btn.disabled = true;
+
+    var formData = new FormData(form);
+
+    fetch('https://formsubmit.co/ajax/bonnie@daling.top', {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      form.style.display = 'none';
+      document.getElementById('bookingSuccess').classList.add('show');
+      if (currentLang !== 'zh') {
+        document.getElementById('bookingSuccess').querySelectorAll('[data-en]').forEach(function(el) {
+          el.innerHTML = el.getAttribute('data-en');
+        });
+      }
+    })
+    .catch(function(err) {
+      btn.textContent = currentLang === 'zh' ? '提交失败，请重试' : 'Failed, please retry';
+      btn.disabled = false;
+      setTimeout(function() { btn.textContent = origText; }, 3000);
+    });
   }
 </script>
 
