@@ -649,6 +649,103 @@
     letter-spacing: 0.5px;
   }
 
+  /* Booking Form */
+  .booking {
+    padding: 72px 24px;
+    background: #fff;
+  }
+
+  .booking-content {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .booking-content h2 {
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a3a5c;
+  }
+
+  .booking-content .section-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a3a5c;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #333;
+    transition: border-color 0.2s;
+    background: #fafafa;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #2a5a3c;
+    background: #fff;
+  }
+
+  .form-group.full {
+    width: 100%;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .submit-btn {
+    padding: 14px 36px;
+    background: linear-gradient(135deg, #2a5a3c, #1a3a5c);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    align-self: center;
+    min-width: 200px;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(42,90,60,0.3);
+  }
+
   @media (max-width: 640px) {
     .hero { padding: 60px 20px; }
     .hero h1 { font-size: 26px; letter-spacing: 1px; }
@@ -693,6 +790,9 @@
 
     .lang-switch { top: 12px; right: 12px; }
     .lang-btn { padding: 5px 12px; font-size: 11px; }
+
+    .booking { padding: 48px 16px; }
+    .form-row { grid-template-columns: 1fr; gap: 16px; }
   }
 </style>
 </head>
@@ -927,13 +1027,58 @@
   </div>
 </div>
 
+<!-- Booking Form -->
+<div class="booking" id="booking">
+  <div class="booking-content">
+    <h2 data-en="Book Your Consultation" data-zh="在线预约咨询">Book Your Consultation</h2>
+    <p class="section-sub" data-en="Fill in your details and we'll get back to you within 24 hours" data-zh="填写以下信息，我们将在24小时内与您联系">Fill in your details and we'll get back to you within 24 hours</p>
+    <form class="booking-form" onsubmit="submitBooking(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label data-en="Name *" data-zh="姓名 *">Name *</label>
+          <input type="text" id="b-name" required placeholder="">
+        </div>
+        <div class="form-group">
+          <label data-en="Phone / WeChat *" data-zh="电话 / 微信 *">Phone / WeChat *</label>
+          <input type="text" id="b-contact" required placeholder="">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label data-en="Email" data-zh="邮箱">Email</label>
+          <input type="email" id="b-email" placeholder="">
+        </div>
+        <div class="form-group">
+          <label data-en="Preferred Date" data-zh="期望治疗时间">Preferred Date</label>
+          <input type="text" id="b-date" placeholder="" data-placeholder-en="e.g. May 2026" data-placeholder-zh="如 2026年5月">
+        </div>
+      </div>
+      <div class="form-group full">
+        <label data-en="Interested Package" data-zh="感兴趣的套餐">Interested Package</label>
+        <select id="b-package">
+          <option value="" data-en="-- Please select --" data-zh="-- 请选择 --">-- Please select --</option>
+          <option value="hermes" data-en="Hermes Glow (HK$6,986)" data-zh="爱马仕焕肤 (HK$6,986)">Hermes Glow (HK$6,986)</option>
+          <option value="immune" data-en="Immune Rebuild (HK$5,880)" data-zh="免疫重塑 (HK$5,880)">Immune Rebuild (HK$5,880)</option>
+          <option value="radiance" data-en="Radiance Renewal (HK$5,018)" data-zh="全效焕肤 (HK$5,018)">Radiance Renewal (HK$5,018)</option>
+          <option value="custom" data-en="Need advice / Custom plan" data-zh="需要建议 / 定制方案">Need advice / Custom plan</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label data-en="Message (optional)" data-zh="备注（选填）">Message (optional)</label>
+        <textarea id="b-message" rows="3" placeholder=""></textarea>
+      </div>
+      <button type="submit" class="submit-btn" data-en="Submit Booking" data-zh="提交预约">Submit Booking</button>
+    </form>
+  </div>
+</div>
+
 <!-- Contact -->
 <div class="contact">
   <h2 data-en="Begin Your Journey" data-zh="开启您的抗衰之旅">Begin Your Journey</h2>
   <p>BitDao Technology (HK) Limited</p>
   <p>Suite 603, 6/F Laws Commercial Plaza, 788 Cheung Sha Wan Road, Hong Kong</p>
   <p>Tel: <a href="tel:+85266209905">+852 6620-9905</a></p>
-  <a href="tel:+85266209905" class="cta-btn" data-en="Book Consultation" data-zh="立即预约咨询">Book Consultation</a>
+  <a href="#booking" class="cta-btn" data-en="Book Consultation" data-zh="立即预约咨询">Book Consultation</a>
 </div>
 
 <div class="footer">
@@ -970,6 +1115,36 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  function submitBooking(e) {
+    e.preventDefault();
+    var name = document.getElementById('b-name').value;
+    var contact = document.getElementById('b-contact').value;
+    var email = document.getElementById('b-email').value;
+    var date = document.getElementById('b-date').value;
+    var pkg = document.getElementById('b-package');
+    var pkgText = pkg.options[pkg.selectedIndex].text;
+    var message = document.getElementById('b-message').value;
+
+    var text = (currentLang === 'zh' ? '预约咨询' : 'Booking Request') + '%0A';
+    text += (currentLang === 'zh' ? '姓名：' : 'Name: ') + name + '%0A';
+    text += (currentLang === 'zh' ? '联系方式：' : 'Contact: ') + contact + '%0A';
+    if (email) text += (currentLang === 'zh' ? '邮箱：' : 'Email: ') + email + '%0A';
+    if (date) text += (currentLang === 'zh' ? '期望时间：' : 'Preferred Date: ') + date + '%0A';
+    if (pkg.value) text += (currentLang === 'zh' ? '套餐：' : 'Package: ') + pkgText + '%0A';
+    if (message) text += (currentLang === 'zh' ? '备注：' : 'Message: ') + message;
+
+    window.open('https://wa.me/85266209905?text=' + text, '_blank');
+
+    var btn = e.target.querySelector('.submit-btn');
+    var origText = btn.textContent;
+    btn.textContent = currentLang === 'zh' ? '已提交' : 'Submitted';
+    btn.style.background = '#2a5a3c';
+    setTimeout(function() {
+      btn.textContent = origText;
+      btn.style.background = '';
+    }, 3000);
+  }
 </script>
 
 </body>
